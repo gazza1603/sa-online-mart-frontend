@@ -6,61 +6,58 @@
 <form id="createProductForm">
     <div class="form-group">
         <label>Name</label>
-        <input type="text" asp-for="Product.Name" class="form-control" />
+        <input type="text" asp-for="Product.Name" class="form-control" id="name" />
     </div>
     <div class="form-group">
         <label>Description</label>
-        <textarea asp-for="Product.Description" class="form-control"></textarea>
+        <textarea asp-for="Product.Description" class="form-control" id="description"></textarea>
     </div>
     <div class="form-group">
         <label>Price</label>
-        <input type="number" asp-for="Product.Price" step="0.01" class="form-control" />
+        <input type="number" asp-for="Product.Price" step="0.01" class="form-control" id="price" />
     </div>
     <div class="form-group">
         <label>Stock</label>
-        <input type="number" asp-for="Product.Stock" class="form-control" />
+        <input type="number" asp-for="Product.Stock" class="form-control" id="stock" />
     </div>
     <div class="form-group">
         <label>Image URL</label>
-        <input type="text" asp-for="Product.ImageUrl" class="form-control" />
+        <input type="text" asp-for="Product.ImageUrl" class="form-control" id="imageUrl" />
     </div>
     <input type="submit" value="Create Product" class="btn btn-primary" />
 </form>
 
-<!-- Include this script at the end of your Razor Page -->
 <script>
     const form = document.getElementById('createProductForm');
     form.addEventListener('submit', async function (e) {
-        e.preventDefault(); // Prevent the default form submission behavior
+        e.preventDefault();
 
-        // Hard-coded data to test the API
-        const hardcodedData = {
-            name: "Test Product",
-            description: "This is a test product description.",
-            price: 100.50,
-            stock: 10,
-            imageUrl: "https://example.com/image.jpg"
+        // Gather the input data
+        const productData = {
+            name: document.getElementById('name').value,
+            description: document.getElementById('description').value,
+            price: parseFloat(document.getElementById('price').value),
+            stock: parseInt(document.getElementById('stock').value),
+            imageUrl: document.getElementById('imageUrl').value
         };
 
-        console.log("Sending data:", hardcodedData);
+        console.log("Sending data:", productData);
 
+        // Send the data to the API
         const response = await fetch('http://localhost:5059/api/products', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json' // Set content type to JSON
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(hardcodedData) // Convert JSON object to string
+            body: JSON.stringify(productData)
         });
 
         if (response.ok) {
             console.log("Product created successfully");
-            window.location.href = '/Admin/Products/Index'; // Redirect on success
+            window.location.href = '/Admin/Products/Index';
         } else {
             const errorContent = await response.json();
             console.error('Failed to create product:', errorContent);
-            // Optionally, display an error message on the page
         }
     });
 </script>
-
-

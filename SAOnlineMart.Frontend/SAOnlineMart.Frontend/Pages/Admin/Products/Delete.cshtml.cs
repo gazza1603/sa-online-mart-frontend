@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SAOnlineMart.Frontend.Models;
 using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace SAOnlineMart.Frontend.Pages.Admin.Products
@@ -21,8 +20,7 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Console.WriteLine("OnGetAsync method started for product ID: " + id);
-            // Fetch the product details to display before deletion
+            // Fetch the product to confirm deletion
             Product = await _httpClient.GetFromJsonAsync<Product>($"products/{id}");
 
             if (Product == null)
@@ -35,19 +33,21 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
 
         public async Task<IActionResult> OnPostAsync(int id)
         {
-            Console.WriteLine("OnPostAsync method started for product ID: " + id);
+            Console.WriteLine("OnPostAsync method started.");
+
+            // Delete the product
             var response = await _httpClient.DeleteAsync($"products/{id}");
 
             if (response.IsSuccessStatusCode)
             {
-                Console.WriteLine("Product deleted successfully.");
                 return RedirectToPage("/Admin/Products/Index");
             }
-            else
-            {
-                Console.WriteLine("Failed to delete product.");
-                return Page();
-            }
+
+            // Handle errors
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"An error occurred while deleting the product: {errorContent}");
+
+            return Page();
         }
     }
 }

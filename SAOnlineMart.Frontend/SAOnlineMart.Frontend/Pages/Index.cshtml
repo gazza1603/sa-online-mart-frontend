@@ -3,12 +3,19 @@
 
 <h1>Welcome to SA Online Mart</h1>
 <h2>Our Products</h2>
-<ul>
+
+<div class="row">
     @foreach (var product in Model.Products)
     {
-    <li>
-        <a href="/Products/Details/@product.Id">@product.Name</a>
-        - @product.Price.ToString("C")
-    </li>
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Price.ToString("C")</p>
+                    <a href="/Products/Details/@product.Id" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+        </div>
     }
-</ul>
+</div>

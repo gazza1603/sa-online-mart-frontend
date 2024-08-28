@@ -3,26 +3,97 @@
 
 <h1>Edit Product</h1>
 
-<form method="post">
-    <div class="form-group">
-        <label>Name</label>
-        <input type="text" asp-for="Product.Name" class="form-control" />
+<div class="row">
+    <!-- Left Side: Form to Edit Product -->
+    <div class="col-md-8">
+        <form id="editProductForm">
+            <div class="form-group">
+                <label asp-for="Product.Name" class="control-label">Product Name</label>
+                <input asp-for="Product.Name" class="form-control" id="productName" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Product.Description" class="control-label">Product Description</label>
+                <textarea asp-for="Product.Description" class="form-control" id="productDescription"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Product.Price" class="control-label">Price</label>
+                <input asp-for="Product.Price" class="form-control" step="0.01" id="productPrice" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Product.Stock" class="control-label">Stock</label>
+                <input asp-for="Product.Stock" class="form-control" id="productStock" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Product.ImageUrl" class="control-label">Image URL</label>
+                <input asp-for="Product.ImageUrl" class="form-control" id="productImageUrl" />
+            </div>
+
+            <input type="hidden" id="productId" value="@Model.Product.Id" />
+            <input type="submit" value="Save Changes" class="btn btn-primary" />
+        </form>
     </div>
-    <div class="form-group">
-        <label>Description</label>
-        <textarea asp-for="Product.Description" class="form-control"></textarea>
+
+    <!-- Right Side: Information Panel -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h3>Product Information</h3>
+            </div>
+            <div class="card-body">
+                <p><strong>ID:</strong> @Model.Product.Id</p>
+                <p><strong>Current Name:</strong> @Model.Product.Name</p>
+                <p><strong>Description:</strong> @Model.Product.Description</p>
+                <p><strong>Price:</strong> @Model.Product.Price.ToString("C")</p>
+                <p><strong>Stock:</strong> @Model.Product.Stock</p>
+                <p><strong>Image URL:</strong> <a href="@Model.Product.ImageUrl" target="_blank">View Image</a></p>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label>Price</label>
-        <input type="number" asp-for="Product.Price" step="0.01" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Stock</label>
-        <input type="number" asp-for="Product.Stock" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label>Image URL</label>
-        <input type="text" asp-for="Product.ImageUrl" class="form-control" />
-    </div>
-    <input type="submit" value="Save Changes" class="btn btn-primary" />
-</form>
+</div>
+
+<script>
+    const form = document.getElementById('editProductForm');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const productId = document.getElementById('productId').value;
+
+        // Gather form data
+        const productData = {
+            id: parseInt(productId), // Ensure ID is sent as an integer
+            name: document.getElementById('productName').value.trim(),
+            description: document.getElementById('productDescription').value.trim(),
+            price: parseFloat(document.getElementById('productPrice').value),
+            stock: parseInt(document.getElementById('productStock').value),
+            imageUrl: document.getElementById('productImageUrl').value.trim()
+        };
+
+        console.log('Product data to be sent:', productData); // Debugging line
+
+        try {
+            const response = await fetch(`http://localhost:5059/api/products/${productId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(productData)
+            });
+
+            if (response.ok) {
+                console.log("Product edited successfully");
+                window.location.href = '/Admin/Products/Index';
+            } else {
+                const errorContent = await response.text();
+                console.error('Failed to edit product:', errorContent); // Capture error details
+                alert(`Error editing product: ${errorContent}`); // Display error message to user
+            }
+        } catch (error) {
+            console.error('Error making the request:', error); // Catch network errors
+            alert(`Network error: ${error.message}`);
+        }
+    });
+</script>

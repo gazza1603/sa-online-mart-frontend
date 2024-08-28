@@ -28,6 +28,9 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 return NotFound();
             }
 
+            // Debugging output
+            Console.WriteLine($"Product data - ID: {Product.Id}, Name: {Product.Name}, Price: {Product.Price}, Stock: {Product.Stock}, ImageUrl: {Product.ImageUrl}");
+
             return Page();
         }
 
@@ -38,8 +41,36 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 return Page();
             }
 
-            await _httpClient.PutAsJsonAsync($"products/{Product.Id}", Product);
-            return RedirectToPage("/Admin/Products/Index");
+            try
+            {
+                // Send the PUT request to the API to update the product
+                var response = await _httpClient.PutAsJsonAsync($"http://localhost:5059/api/products/{Product.Id}", Product);
+
+                // If the response indicates success, redirect to the product index page
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToPage("/Admin/Products/Index");
+                }
+                else
+                {
+                    // Log the response status and any error messages returned by the API
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    ModelState.AddModelError(string.Empty, $"Failed to update product: {response.StatusCode}. {errorContent}");
+
+                    // Optionally, log the error content to a server-side log
+                    Console.Error.WriteLine($"Error updating product: {errorContent}");
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the exception details and return an error message
+                ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
+                Console.Error.WriteLine($"Exception during product update: {ex}");
+            }
+
+            // If we reach here, something went wrong, and we want to return to the same page
+            return Page();
         }
+
     }
 }

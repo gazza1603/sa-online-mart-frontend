@@ -3,7 +3,7 @@
 
 <h1>Manage Products</h1>
 
-<a href="/Admin/Products/Create">Add New Product</a>
+<a href="/Admin/Products/Create" class="btn btn-primary">Add New Product</a>
 
 <table class="table">
     <thead>
@@ -20,12 +20,28 @@
             <td>@product.Name</td>
             <td>@product.Price.ToString("C")</td>
             <td>
-                <a href="/Admin/Products/Edit/@product.Id">Edit</a> |
-                <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" style="display:inline;">
-                    <input type="submit" value="Delete" class="btn btn-danger" />
-                </form>
+                <a href="/Admin/Products/Edit/@product.Id" class="btn btn-secondary">Edit</a>
+                <button class="btn btn-danger" onclick="deleteProduct(@product.Id)">Delete</button>
             </td>
         </tr>
         }
     </tbody>
 </table>
+
+<script>
+    async function deleteProduct(productId) {
+        const response = await fetch(`http://localhost:5059/api/products/${productId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            console.log(`Product with ID ${productId} deleted successfully.`);
+            window.location.reload(); // Reload to reflect changes
+        } else {
+            console.error(`Failed to delete product with ID ${productId}.`);
+        }
+    }
+</script>

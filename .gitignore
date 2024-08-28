@@ -1,0 +1,200 @@
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific folders
+.vscode/
+.vscode/*
+.vs/
+.vs/*
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+[Oo]ut/
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.nuget
+*.nupkg
+*.o
+*.so
+*.dylib
+*.lib
+*.log
+*.cache
+*.manifest
+*.vspscc
+*.vssscc
+*.sln.docstates
+Generated\
+
+# IIS Express folder
+IISExpress/
+
+# IIS Express logs
+IISExpress/logs/
+IISExpress/vsftpd.log*
+
+# ASP.NET Scaffolding folder
+Scaffolding/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Don't ignore NuGet packages in case you have some that are not hosted publicly
+!packages/*/lib/
+!packages/*/tools/
+
+# Uncomment if necessary however generally it is tracked
+# for CI scenarios.
+# NuGet Packages
+#**/packages/*
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# NPM packages
+node_modules/
+
+# Jest Coverage folder
+coverage/
+
+# TypeScript v1 declaration files
+typings/
+
+# JetBrains Rider
+.idea/
+
+# Ignore Folders
+bin/
+obj/
+
+# Ignore Visual Studio temporary files, build results, and
+# user-specific files
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific folders
+.vscode/
+.vscode/*
+.vs/
+.vs/*
+
+# Mono Auto Generated Files
+mono_crash.*
+
+# Windows image file caches
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# VS Code directories
+.vscode/
+
+# Build results
+bin/
+obj/
+
+# Ignore build output directories
+bin/
+obj/
+
+# Ignore Visual Studio-specific files and folders
+.vs/
+.vs/*
+
+# Ignore IIS Express folder
+IISExpress/
+
+# Ignore IIS Express logs
+IISExpress/logs/
+IISExpress/vsftpd.log*
+
+# Ignore ASP.NET Scaffolding folder
+Scaffolding/
+
+# Ignore Rider (JetBrains) IDE files
+.idea/
+
+# Ignore Folders
+bin/
+obj/
+
+# Ignore NuGet Packages
+*.nupkg
+*.nuget
+
+# Ignore compiled binaries
+*.dll
+*.exe
+*.pdb
+*.nuget
+
+# Ignore auto-generated files or directories
+Generated/
+
+# Ignore .NET Core project files
+project.lock.json
+project.fragment.lock.json
+artifacts/

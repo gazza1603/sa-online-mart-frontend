@@ -22,6 +22,7 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
         public async Task<IActionResult> OnPostAsync()
         {
             Console.WriteLine("OnPostAsync method started.");
+
             if (!ModelState.IsValid)
             {
                 foreach (var modelState in ModelState.Values)
@@ -42,9 +43,12 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 return RedirectToPage("/Admin/Products/Index");
             }
 
-            // Handle errors
-            ModelState.AddModelError(string.Empty, "An error occurred while creating the product.");
+            // Handle errors: capture error content from the response
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError(string.Empty, $"An error occurred while creating the product: {errorContent}");
+
             return Page();
         }
+
     }
 }
