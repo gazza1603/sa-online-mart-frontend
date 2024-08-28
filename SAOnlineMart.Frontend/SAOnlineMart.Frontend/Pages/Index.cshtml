@@ -1,0 +1,14 @@
+﻿@page
+@model SAOnlineMart.Frontend.Pages.IndexModel
+
+<h1>Welcome to SA Online Mart</h1>
+<h2>Our Products</h2>
+<ul>
+    @foreach (var product in Model.Products)
+    {
+    <li>
+        <a href="/Products/Details/@product.Id">@product.Name</a>
+        - @product.Price.ToString("C")
+    </li>
+    }
+</ul>

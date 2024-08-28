@@ -1,0 +1,31 @@
+@page
+@model SAOnlineMart.Frontend.Pages.Admin.Products.IndexModel
+
+<h1>Manage Products</h1>
+
+<a href="/Admin/Products/Create">Add New Product</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+        <tr>
+            <td>@product.Name</td>
+            <td>@product.Price.ToString("C")</td>
+            <td>
+                <a href="/Admin/Products/Edit/@product.Id">Edit</a> |
+                <form method="post" asp-page-handler="Delete" asp-route-id="@product.Id" style="display:inline;">
+                    <input type="submit" value="Delete" class="btn btn-danger" />
+                </form>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

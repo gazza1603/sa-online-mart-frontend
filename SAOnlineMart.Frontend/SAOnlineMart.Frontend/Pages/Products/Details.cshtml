@@ -1,0 +1,12 @@
+@page "{id:int}"
+@model SAOnlineMart.Frontend.Pages.Products.DetailsModel
+
+<h1>@Model.Product.Name</h1>
+<p>@Model.Product.Description</p>
+<p>Price: @Model.Product.Price.ToString("C")</p>
+<p>Stock: @Model.Product.Stock</p>
+<img src="@Model.Product.ImageUrl" alt="@Model.Product.Name" />
+
+<form method="post">
+    <input type="submit" value="Add to Cart" />
+</form>

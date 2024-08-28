@@ -1,0 +1,66 @@
+@page
+@model SAOnlineMart.Frontend.Pages.Admin.Products.CreateModel
+
+<h1>Create New Product</h1>
+
+<form id="createProductForm">
+    <div class="form-group">
+        <label>Name</label>
+        <input type="text" asp-for="Product.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <textarea asp-for="Product.Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label>Price</label>
+        <input type="number" asp-for="Product.Price" step="0.01" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Stock</label>
+        <input type="number" asp-for="Product.Stock" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Image URL</label>
+        <input type="text" asp-for="Product.ImageUrl" class="form-control" />
+    </div>
+    <input type="submit" value="Create Product" class="btn btn-primary" />
+</form>
+
+<!-- Include this script at the end of your Razor Page -->
+<script>
+    const form = document.getElementById('createProductForm');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        // Hard-coded data to test the API
+        const hardcodedData = {
+            name: "Test Product",
+            description: "This is a test product description.",
+            price: 100.50,
+            stock: 10,
+            imageUrl: "https://example.com/image.jpg"
+        };
+
+        console.log("Sending data:", hardcodedData);
+
+        const response = await fetch('http://localhost:5059/api/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json' // Set content type to JSON
+            },
+            body: JSON.stringify(hardcodedData) // Convert JSON object to string
+        });
+
+        if (response.ok) {
+            console.log("Product created successfully");
+            window.location.href = '/Admin/Products/Index'; // Redirect on success
+        } else {
+            const errorContent = await response.json();
+            console.error('Failed to create product:', errorContent);
+            // Optionally, display an error message on the page
+        }
+    });
+</script>
+
+
