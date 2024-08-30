@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SAOnlineMart.Frontend.Models; // Ensure this namespace matches your models
+using SAOnlineMart.Frontend.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;

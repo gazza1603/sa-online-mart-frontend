@@ -35,7 +35,6 @@ namespace SAOnlineMart.Frontend.Pages.Account
 
             try
             {
-                // Post the new user data to the backend API
                 var response = await _httpClient.PostAsJsonAsync("http://localhost:5059/api/users", NewUser);
 
                 if (response.IsSuccessStatusCode)
@@ -45,7 +44,7 @@ namespace SAOnlineMart.Frontend.Pages.Account
                 }
                 else
                 {
-                    var errorContent = await response.Content.ReadAsStringAsync(); // Capture detailed error message
+                    var errorContent = await response.Content.ReadAsStringAsync(); 
                     ErrorMessage = $"Sign-up failed: {errorContent}";
                     return Page();
                 }

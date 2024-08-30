@@ -43,7 +43,6 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 return RedirectToPage("/Admin/Products/Index");
             }
 
-            // Handle errors: capture error content from the response
             var errorContent = await response.Content.ReadAsStringAsync();
             ModelState.AddModelError(string.Empty, $"An error occurred while creating the product: {errorContent}");
 

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SAOnlineMart.Frontend.Models;  // Ensure this is the correct namespace for your Product model
+using SAOnlineMart.Frontend.Models;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;

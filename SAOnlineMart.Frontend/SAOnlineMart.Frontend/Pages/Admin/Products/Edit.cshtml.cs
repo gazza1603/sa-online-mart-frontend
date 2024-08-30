@@ -53,11 +53,9 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 }
                 else
                 {
-                    // Log the response status and any error messages returned by the API
                     var errorContent = await response.Content.ReadAsStringAsync();
                     ModelState.AddModelError(string.Empty, $"Failed to update product: {response.StatusCode}. {errorContent}");
 
-                    // Optionally, log the error content to a server-side log
                     Console.Error.WriteLine($"Error updating product: {errorContent}");
                 }
             }
@@ -67,8 +65,6 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
                 ModelState.AddModelError(string.Empty, $"An error occurred: {ex.Message}");
                 Console.Error.WriteLine($"Exception during product update: {ex}");
             }
-
-            // If we reach here, something went wrong, and we want to return to the same page
             return Page();
         }
 
