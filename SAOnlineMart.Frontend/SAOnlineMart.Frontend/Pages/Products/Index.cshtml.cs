@@ -19,7 +19,7 @@ namespace SAOnlineMart.Frontend.Pages.Products
 
         public async Task OnGetAsync()
         {
-            Products = await _httpClient.GetFromJsonAsync<List<Product>>("products");
+            Products = await _httpClient.GetFromJsonAsync<List<Product>>("api/products");
         }
     }
 

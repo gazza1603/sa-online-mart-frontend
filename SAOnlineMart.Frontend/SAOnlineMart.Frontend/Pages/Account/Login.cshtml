@@ -1,24 +1,73 @@
 @page
 @model SAOnlineMart.Frontend.Pages.Account.LoginModel
-
+@{
+    ViewData["Title"] = "Login";
+}
 
 <h2>Login</h2>
 
-<form method="post">
+<div id="errorMessage" class="alert alert-danger d-none"></div>
+
+<form id="loginForm">
     <div class="form-group">
-        <label asp-for="Username"></label>
-        <input asp-for="Username" class="form-control" />
+        <label for="email">Email</label>
+        <input id="email" name="Email" type="email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" name="Username" class="form-control" />
         <span asp-validation-for="Username" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" class="form-control" />
+        <label for="password">Password</label>
+        <input id="password" name="Password" type="password" class="form-control" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <input type="checkbox" id="isAdmin" name="IsAdmin" />
+        <label for="isAdmin">Login as Admin</label>
+    </div>
     <button type="submit" class="btn btn-primary">Login</button>
-
-    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-    {
-        <div class="alert alert-danger mt-3">@Model.ErrorMessage</div>
-    }
 </form>
+
+<script>
+    console.log("Login script loaded.");
+
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const formData = {
+            Email: document.getElementById('email').value.trim(),
+            Username: document.getElementById('username').value.trim(),
+            Password: document.getElementById('password').value.trim(),
+            IsAdmin: document.getElementById('isAdmin').checked
+        };
+
+        try {
+            const response = await fetch('http://localhost:5059/api/users/authenticate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
+            if (response.ok) {
+                if (formData.IsAdmin) {
+                    window.location.href = '/Admin/Products/Index';
+                } else {
+                    window.location.href = '/Index';
+                }
+            } else {
+                const errorContent = await response.text();
+                document.getElementById('errorMessage').textContent = `Login failed: ${errorContent}`;
+                document.getElementById('errorMessage').classList.remove('d-none');
+            }
+        } catch (error) {
+            document.getElementById('errorMessage').textContent = `An error occurred: ${error.message}`;
+            document.getElementById('errorMessage').classList.remove('d-none');
+        }
+    });
+</script>

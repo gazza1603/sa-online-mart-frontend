@@ -23,7 +23,7 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
 
         public async Task OnGetAsync()
         {
-            Products = await _httpClient.GetFromJsonAsync<List<Product>>("products");
+            Products = await _httpClient.GetFromJsonAsync<List<Product>>("api/products");
         }
 
         public async Task<IActionResult> OnPostDeleteAsync(int id)
@@ -42,10 +42,9 @@ namespace SAOnlineMart.Frontend.Pages.Admin.Products
             _logger.LogError("Failed to delete product with ID: {ProductId}. Status Code: {StatusCode}. Error: {ErrorContent}",
                              id, response.StatusCode, errorContent);
 
-            // Optionally, you could display the error in the UI by adding it to ModelState
             ModelState.AddModelError(string.Empty, $"Failed to delete product with ID: {id}. Error: {errorContent}");
 
-            return Page(); // Or redirect back to the same page if you prefer
+            return Page();
         }
     }
 }

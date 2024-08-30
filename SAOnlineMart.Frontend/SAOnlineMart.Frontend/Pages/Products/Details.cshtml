@@ -1,5 +1,8 @@
 @page "{id:int}"
 @model SAOnlineMart.Frontend.Pages.Products.DetailsModel
+@{
+    ViewData["Title"] = "Product Details";
+}
 
 <h1>@Model.Product.Name</h1>
 <p>@Model.Product.Description</p>
@@ -7,6 +10,48 @@
 <p>Stock: @Model.Product.Stock</p>
 <img src="@Model.Product.ImageUrl" alt="@Model.Product.Name" />
 
-<form method="post">
-    <input type="submit" value="Add to Cart" />
+<div id="message" class="alert d-none"></div>
+
+<form id="addToCartForm">
+    <input type="hidden" id="productId" value="@Model.Product.Id" />
+    <input type="submit" value="Add to Cart" class="btn btn-primary" />
 </form>
+
+<script>
+    console.log("Add to Cart script loaded.");
+
+    const form = document.getElementById('addToCartForm');
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const productId = document.getElementById('productId').value;
+
+        try {
+            const response = await fetch('/api/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId, quantity: 1 }) // Quantity can be adjusted based on your needs
+            });
+
+            if (response.ok) {
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = "Product added to cart successfully!";
+                messageDiv.classList.remove('d-none', 'alert-danger');
+                messageDiv.classList.add('alert-success');
+            } else {
+                const errorContent = await response.text();
+                const messageDiv = document.getElementById('message');
+                messageDiv.textContent = `Failed to add product to cart: ${errorContent}`;
+                messageDiv.classList.remove('d-none', 'alert-success');
+                messageDiv.classList.add('alert-danger');
+            }
+        } catch (error) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = `An error occurred: ${error.message}`;
+            messageDiv.classList.remove('d-none', 'alert-success');
+            messageDiv.classList.add('alert-danger');
+        }
+    });
+</script>

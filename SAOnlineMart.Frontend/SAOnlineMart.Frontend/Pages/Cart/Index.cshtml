@@ -1,16 +1,53 @@
 @page
 @model SAOnlineMart.Frontend.Pages.Cart.IndexModel
+@{
+    ViewData["Title"] = "Your Cart";
+}
 
-<h1>Your Shopping Cart</h1>
+<h2>Your Cart</h2>
+
+@if (Model.CartItems.Count > 0)
+{
 <ul>
     @foreach (var item in Model.CartItems)
-    {
+        {
     <li>
-        @item.Product.Name - Quantity: @item.Quantity - Total: @(item.Quantity * item.Product.Price).ToString("C")
-        <form method="post" asp-page-handler="Remove" asp-route-id="@item.Product.Id">
-            <input type="submit" value="Remove" />
-        </form>
+        <span>@item.Product.Name - @item.Quantity x @item.Product.Price.ToString("C")</span>
+        <button class="btn btn-danger btn-sm" onclick="removeFromCart(@item.Product.Id)">Remove</button>
     </li>
-    }
+        }
 </ul>
-<a href="/Checkout">Proceed to Checkout</a>
+<p>Total: @Model.CartItems.Sum(i => i.Product.Price * i.Quantity).ToString("C")</p>
+<form method="post" asp-page-handler="Checkout">
+    <input type="submit" value="Proceed to Checkout" class="btn btn-primary" />
+</form>
+}
+else
+{
+<p>Your cart is empty.</p>
+}
+
+<script>
+    console.log("Cart script loaded.");
+
+    function removeFromCart(productId) {
+        if (confirm("Are you sure you want to remove this item from your cart?")) {
+            console.log("Removing product with ID:", productId);
+            fetch(`/api/cart/remove/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+
+                    window.location.reload();
+                } else {
+                    console.error('Failed to remove item from cart.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    }
+</script>

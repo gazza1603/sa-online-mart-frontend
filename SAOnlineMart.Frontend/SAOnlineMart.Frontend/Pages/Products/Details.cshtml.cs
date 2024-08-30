@@ -20,7 +20,7 @@ namespace SAOnlineMart.Frontend.Pages.Products
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
-            Product = await _httpClient.GetFromJsonAsync<Product>($"products/{id}");
+            Product = await _httpClient.GetFromJsonAsync<Product>($"api/products/{id}");
 
             if (Product == null)
             {
@@ -28,6 +28,19 @@ namespace SAOnlineMart.Frontend.Pages.Products
             }
 
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
+            var product = await _httpClient.GetFromJsonAsync<Product>($"api/products/{id}");
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            Console.WriteLine($"Product {product.Name} added to cart.");
+
+            return RedirectToPage("/Cart/Index");
         }
     }
 }
